@@ -4,9 +4,6 @@ var pg = require('pg');
 // require('dotenv').load();
 var conString = process.env.DATABASE_URL || "postgres://@localhost/memoriesapp";
 
-app.get('/products/:id', function(req, res, next){
-  res.json({msg: 'This is CORS-enabled for all origins!'});
-});
 
 /* GET users listing. */
 router.post('/api/v1/memories', function(req, res, next) {
