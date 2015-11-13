@@ -52,20 +52,52 @@ router.get('/api/v1/memories', function(req, res, next) {
   });
 });
 
-// {
-//   "links": {},
-//   "data": [
-//     {
-//       "type": "memory",
-//       "id": 0,
-//       "attributes": {
-//         "old_days": "string",
-//         "these_days": "string",
-//         "year": 0
-//       },
-//       "links": {}
-//     }
-//   ]
-// }
+router.get('/api/v1/memories/years', function(req, res, next) {
+  pg.connect(conString, function(err, client, done) {
+    if (err) {
+      return console.error('error fetching client from pool', err);
+    }
+    client.query('SELECT year FROM memories;', function(err, result) {
+      done();
+      console.log(result);
+      res.json({
+        "links": {},
+        data: result.rows.map(function(object) {return object.year;})
+      });
+      if (err) {
+        return console.error('error running query', err);
+      }
+    });
+  });
+});
+
+router.get('/api/v1/memories/:year', function(req, res, next) {
+  pg.connect(conString, function(err, client, done) {
+    if (err) {
+      return console.error('error fetching client from pool', err);
+    }
+    client.query('SELECT * FROM memories WHERE year = $1;', [req.params.year], function(err, result) {
+      done();
+      res.json({
+        "links": {},
+        data: result.rows.map(function (element) {
+          return {
+            'type': 'memory',
+            'id': element.id,
+            'attributes': {
+              'old_days': element.old_days,
+              'these_days': element.these_days,
+              'year': element.year
+            },
+            'links': {}
+          };
+        })
+      });
+      if (err) {
+        return console.error('error running query', err);
+      }
+    });
+  });
+});
 
 module.exports = router;
