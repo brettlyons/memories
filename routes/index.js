@@ -4,7 +4,6 @@ var pg = require('pg');
 // require('dotenv').load();
 var conString = process.env.DATABASE_URL || "postgres://@localhost/memoriesapp";
 
-
 /* GET users listing. */
 router.post('/api/v1/memories', function(req, res, next) {
   pg.connect(conString, function(err, client, done) {
@@ -13,12 +12,23 @@ router.post('/api/v1/memories', function(req, res, next) {
     }
     client.query('INSERT INTO memories(old_days, these_days, year) values($1, $2, $3)',
                  [req.body.data.attributes.old_days, req.body.data.attributes.these_days, req.body.data.attributes.year], function(err, result) {
-      done();
-      res.json(result);
-      if (err) {
-        return console.error('error running query', err);
-      }
-    });
+                   done();
+
+                   res.json({
+                     data: {
+                       type: "memory",
+                       attributes: {
+                         "old_days": req.body.data.attributes.old_days,
+                         "these_days": req.body.data.attributes.these_days,
+                         "year": Number(req.body.data.attributes.year)
+                       }
+                     }
+                   });
+
+                   if (err) {
+                     return console.error('error running query', err);
+                   }
+                 });
   });
 });
 
