@@ -15,15 +15,17 @@ router.post('/api/v1/memories', function(req, res, next) {
                    done();
 
                    res.json({
+                     links: {},
                      data: {
-                       type: "memory",
-                       id: result.oid,
+                       'type': 'memory',
+                       'id': result.oid,
                        attributes: {
-                         "old_days": req.body.data.attributes.old_days,
-                         "these_days": req.body.data.attributes.these_days,
-                         "year": Number(req.body.data.attributes.year)
+                         'old_days': req.body.data.attributes.old_days,
+                         'these_days': req.body.data.attributes.these_days,
+                         'year': Number(req.body.data.attributes.year)
                        }
-                     }
+                     },
+                     links: {}
                    });
 
                    if (err) {
