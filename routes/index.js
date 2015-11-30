@@ -26,7 +26,6 @@ router.post('/api/v1/memories', function(req, res, next) {
                        }
                      },
                      links: {},
-                     DEBUG: result
                    });
 
                    if (err) {
