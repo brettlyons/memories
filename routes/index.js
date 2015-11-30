@@ -62,7 +62,7 @@ router.get('/api/v1/memories/years', function(req, res, next) {
       console.log(result);
       res.json({
         "links": {},
-        data: result.rows.map(function(object) {return object.year;})
+        data: result.rows.map(function(object) {return Number(object.year);})
       });
       if (err) {
         return console.error('error running query', err);
