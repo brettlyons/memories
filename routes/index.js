@@ -17,6 +17,7 @@ router.post('/api/v1/memories', function(req, res, next) {
                    res.json({
                      data: {
                        type: "memory",
+                       id: result.oid,
                        attributes: {
                          "old_days": req.body.data.attributes.old_days,
                          "these_days": req.body.data.attributes.these_days,
