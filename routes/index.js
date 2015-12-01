@@ -10,7 +10,7 @@ router.post('/api/v1/memories', function(req, res, next) {
     if (err) {
       return console.error('error fetching client from pool', err);
     }
-    client.query('INSERT INTO memories(old_days, these_days, year) values($1, $2, $3)',
+    client.query('INSERT INTO memories(old_days, these_days, year) values($1, $2, $3) RETURNING id AS id',
                  [req.body.data.attributes.old_days, req.body.data.attributes.these_days, req.body.data.attributes.year], function(err, result) {
                    done();
 
@@ -18,7 +18,7 @@ router.post('/api/v1/memories', function(req, res, next) {
                      links: {},
                      data: {
                        'type': 'memory',
-                       'id': 'Query GET method for ID field',
+                       'id': result.id,
                        attributes: {
                          'old_days': req.body.data.attributes.old_days,
                          'these_days': req.body.data.attributes.these_days,
