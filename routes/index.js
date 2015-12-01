@@ -18,14 +18,15 @@ router.post('/api/v1/memories', function(req, res, next) {
                      links: {},
                      data: {
                        'type': 'memory',
-                       'id': result.id,
+                       'id': result.rows[0].id,
                        attributes: {
                          'old_days': req.body.data.attributes.old_days,
                          'these_days': req.body.data.attributes.these_days,
                          'year': Number(req.body.data.attributes.year)
                        }
                      },
-                     links: {},
+                     links: {}
+                     // DEBUG: result
                    });
 
                    if (err) {
